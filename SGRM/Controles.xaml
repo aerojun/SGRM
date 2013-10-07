@@ -1,0 +1,54 @@
+﻿<Controls:MetroWindow x:Class="SGRM.Controles"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Sistema Global de Registro Médico" Height="500" Width="600" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroContentControl>
+        <TabControl>
+            <TabItem Header="Nuevo Paciente">
+                <TabControl>
+                    <TabItem Header="Datos Generales">
+                        <Grid>
+                            <Button Content="Digitalizar Huella" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" Margin="10,10,0,0" Height="26"/>
+                            <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,9,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="172,10,0,0" IsReadOnly="True"/>
+
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Paterno" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="10,97,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="País" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="138" Margin="297,128,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="456,128,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Género" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="456,97,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Estado" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="172,128,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad de Nacimiento" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Margin="10,128,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,66,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,97,0,0"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Domicilio">
+
+                    </TabItem>
+                    <TabItem Header="Expediente">
+
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Buscar Paciente">
+                <Grid></Grid>
+            </TabItem>
+        </TabControl>
+
+    </Controls:MetroContentControl>
+</Controls:MetroWindow>
