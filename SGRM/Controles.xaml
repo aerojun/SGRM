@@ -22,26 +22,70 @@
             <TabItem Header="Nuevo Paciente">
                 <TabControl>
                     <TabItem Header="Datos Generales">
-                        <Grid>
-                            <Button Content="Digitalizar Huella" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" Margin="10,10,0,0" Height="26"/>
-                            <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,9,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="172,10,0,0" IsReadOnly="True"/>
+                        <Grid Height="362" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="578">
+                            <Button Content="Digitalizar Huella" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="297,10,0,0" Height="26"/>
+                            <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="141,9,0,0" Width="42"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104" Margin="188,10,0,0" IsReadOnly="True"/>
 
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Paterno" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="10,97,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="País" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="138" Margin="297,128,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="456,128,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Género" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="456,97,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Estado" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="172,128,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad de Nacimiento" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Margin="10,128,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,66,0,0"/>
-                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,97,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Paterno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="10,199,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="112" Margin="456,229,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Estado" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="172,229,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad de Nacimiento" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Margin="10,229,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,168,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,199,0,0"/>
+                            <ComboBox                              
+                                  SelectedIndex="0" Margin="456,199,10,138">
+                                <ComboBoxItem Content="Masculino" />
+                                <ComboBoxItem Content="Femenino" />
+                            </ComboBox>
+                            <Label Content="Fecha de Nacimiento"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" Margin="0,254,442,82" Width="126" Height="26" />
+
+                            <ComboBox Margin="225,285,244,51" SelectedIndex="0"></ComboBox>
+                            <ComboBox Margin="96,285,358,51" SelectedIndex="0"></ComboBox>
+                            <ComboBox Margin="10,285,487,51" SelectedIndex="0"></ComboBox>
+
+                            <Label Content="Grupo Sanguineo"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" Margin="0,254,123,82" Width="104" Height="26" />
+                            <ComboBox Margin="351,285,123,51" SelectedIndex="0">
+                                <ComboBoxItem Content="A positivo"/>
+                            </ComboBox>
+                            <Image HorizontalAlignment="Left" Height="153" Margin="10,10,0,0" VerticalAlignment="Top" Width="126"/>
+                            <Button Content="Seleccionar foto" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,10,0,0" Height="153"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Domicilio">
+                        <Grid>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Calle" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,10,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Numero" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,10,0,0" RenderTransformOrigin="0.5,0.5"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Colonia" Height="19" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,41,0,0" RenderTransformOrigin="0.5,0.5"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,72,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="C.P." Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,41,0,0" RenderTransformOrigin="0.5,0.5"/>
+                            <ComboBox Margin="333,72,10,264" SelectedIndex="0">
+                                <ComboBoxItem Content="Aguascalientes"/>
+                            </ComboBox>
+                            <Label Content="Numeros Telefonicos"
+                               VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,130,406,205" Width="162" Height="27" />
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono de casa" Height="16" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,162,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,193,0,0" RenderTransformOrigin="0.5,0.5"/>
+                            <Label Content="Referencias"
+                               VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,224,406,108" Width="162" Height="30" />
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono de casa" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,254,0,0"/>
+                            <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,291,0,0" RenderTransformOrigin="0.5,0.5"/>
 
+                        </Grid>
                     </TabItem>
                     <TabItem Header="Expediente">
+                        <TabControl>
+                            <TabItem Header="Antecedentes Patologicos">
+                                
+                            </TabItem>
+                            <TabItem Header="Datos Adicionales">
 
+                            </TabItem>
+                        </TabControl>
                     </TabItem>
                 </TabControl>
             </TabItem>
