@@ -37,8 +37,9 @@ namespace SGRM
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += delegate
             {
-                Dispatcher.BeginInvoke(new Action(delegate { progreso.Visibility = System.Windows.Visibility.Visible; }));
-                Dispatcher.BeginInvoke(new Action(delegate { Verificar(); }));
+                Dispatcher.BeginInvoke(new Action(delegate { progreso.Visibility = System.Windows.Visibility.Visible;  }));
+                Thread.Sleep(1000);
+                Dispatcher.BeginInvoke(new Action(delegate {   Verificar(); }));
             };
             worker.RunWorkerAsync();
         }

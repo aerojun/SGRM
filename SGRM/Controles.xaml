@@ -34,7 +34,7 @@
                             <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,168,0,0"/>
                             <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,199,0,0"/>
                             <ComboBox                              
-                                  SelectedIndex="0" Margin="456,199,10,138">
+                                  SelectedIndex="0" Margin="456,199,10,137">
                                 <ComboBoxItem Content="Masculino" />
                                 <ComboBoxItem Content="Femenino" />
                             </ComboBox>
@@ -63,7 +63,7 @@
                             <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Colonia" Height="19" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,41,0,0" RenderTransformOrigin="0.5,0.5"/>
                             <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad" Height="28" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,72,0,0"/>
                             <TextBox HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="C.P." Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,41,0,0" RenderTransformOrigin="0.5,0.5"/>
-                            <ComboBox Margin="333,72,10,264" SelectedIndex="0" Height="28">
+                            <ComboBox Margin="333,72,10,256" SelectedIndex="0">
                                 <ComboBoxItem Content="Aguascalientes"/>
                             </ComboBox>
                             <Label Content="Numeros Telefonicos"
