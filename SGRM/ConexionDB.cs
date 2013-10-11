@@ -22,7 +22,7 @@ namespace SGRM
 
         }
 
-        public bool verificarUsuario(string usuario, string contrasena)
+        public bool verificarPaciente(string usuario, string contrasena)
         {
             string query = "SELECT id FROM usuarios WHERE password = '" + contrasena + "' AND usuario = '" + usuario + "'";
             MySqlCommand enviarQuery = new MySqlCommand(query, conexionn);
@@ -53,7 +53,7 @@ namespace SGRM
             }
         }
 
-        public bool agregarAlumno(int id, string Nombre, string Apellido)
+        public bool agregarPaciente(int id, string Nombre, string Apellido)
         {
             string query = "INSERT INTO Alumnos (id, Nombre, Apellidos) VALUES ('" + id + "','" + Nombre + "','" + Apellido + "')";
             MySqlCommand enviarQuery = new MySqlCommand(query, conexionn);

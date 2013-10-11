@@ -59,7 +59,7 @@ namespace SGRM
             pass.Clear();
 
             ConexionDB conectar = new ConexionDB();
-            if (conectar.verificarUsuario(usuario, password))
+            if (conectar.verificarPaciente(usuario, password))
             {
                 var control = new Controles();
                 mostrarControl();
