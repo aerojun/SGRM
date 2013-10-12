@@ -53,9 +53,75 @@ namespace SGRM
             }
         }
 
-        public bool agregarPaciente(int id, string Nombre, string Apellido)
+        public bool agregarPaciente(int id, string nombre, string ap, string am, string nac, string reg, int gen, int sang, string foto, int huella, string calle, int numero, string colonia, string ciudad, string estado, int cp, int tel, int celular, string nRef, int tRef, string alergia, string oper, string enfer  )
         {
-            string query = "INSERT INTO Alumnos (id, Nombre, Apellidos) VALUES ('" + id + "','" + Nombre + "','" + Apellido + "')";
+            
+            /*
+             * Tabla de Antecedentes Patologicos
+             */
+            string query3 = "INSERT INTO antecedente_patologico (id, Alergias, Enfermedades, Operaciones) VALUES ("+alergia+","+enfer+","+oper+")";
+
+            MySqlCommand enviarQuery3 = new MySqlCommand(query3, conexionn);
+
+            try
+            {
+                //Abrir conexion
+                conexionn.Open();
+
+                //Enviar query
+                enviarQuery3.ExecuteNonQuery();
+
+                //Finalizo correctamente
+                return true;
+            }
+            catch (MySqlException MySqlError)
+            {
+                System.Windows.MessageBox.Show("Error: " + MySqlError);
+                return false;
+            }
+            finally
+            {
+                //Cerrar conexion
+                conexionn.Close();
+            }
+
+            int antPat = (int) enviarQuery3.LastInsertedId;
+
+            /*
+             * Tabla de Datos Adicionales
+             */
+
+            string query2 = "INSERT INTO datos_adicionales (Calle, Numero, Colonia, Ciudad, Estado, C.P, Telefono, Celular, Nombre_Ref, Telefono_Ref)"+
+            "VALUES (" + calle +" , " + numero + " , " + colonia +" , " + ciudad +" , " + estado +" , " + cp +" , " + tel+" , " + celular +" , " + nRef +" , " + tRef + ")";
+            MySqlCommand enviarQuery2 = new MySqlCommand(query2, conexionn);
+
+            try
+            {
+                //Abrir conexion
+                conexionn.Open();
+
+                //Enviar query
+                enviarQuery2.ExecuteNonQuery();
+
+                //Finalizo correctamente
+                return true;
+            }
+            catch (MySqlException MySqlError)
+            {
+                System.Windows.MessageBox.Show("Error: "+ MySqlError);
+                return false;
+            }
+            finally
+            {
+                //Cerrar conexion
+                conexionn.Close();
+            }
+
+            int dat = (int) enviarQuery2.LastInsertedId;
+
+            string query = "INSERT INTO paciente (id, Nombre, ApellidoP, ApellidoM, Fecha_Nacimiento, Fecha_Registro, id_Genero, id_Tipo_Sangre, id_Ant_Pat, id_Datos_Adicionales, Fotografia, Huella) VALUES ("
+               + id + "," + nombre + "," + ap + "," + am + "," + nac + "," + reg + "," + gen + "," + sang + "," + antPat + "," + dat + "," + foto + "," + huella + ")";
+
             MySqlCommand enviarQuery = new MySqlCommand(query, conexionn);
 
             try
@@ -71,6 +137,7 @@ namespace SGRM
             }
             catch (MySqlException MySqlError)
             {
+                System.Windows.MessageBox.Show("Error: " + MySqlError);
                 return false;
             }
             finally
@@ -78,6 +145,7 @@ namespace SGRM
                 //Cerrar conexion
                 conexionn.Close();
             }
+
         }
 
         public bool eliminarAlumno()

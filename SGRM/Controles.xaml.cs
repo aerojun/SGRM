@@ -59,6 +59,9 @@ namespace SGRM
                                         "Mayo", "Junio", "Julio", "Agosto",
                                         "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
+        string[] sangre = new string[] {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" };
+
+
         public Controles()
         {
             InitializeComponent();
@@ -70,10 +73,50 @@ namespace SGRM
                 estadoCB.Items.Add(s);
                 estado2CB.Items.Add(s);
             }
+
             foreach (string mes in meses)
                 mesCB.Items.Add(mes);
-        }   
 
+            foreach (string san in sangre)
+                sangreCB.Items.Add(san);
+
+            for (int y = 1920; y <= 2013; y++)
+                añoCB.Items.Add(y);
+        }
+
+        private void numerosOnly(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char c in e.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true;
+                    break;
+                }
+            }
+        }
+
+        private void cambioMes(object sender, SelectionChangedEventArgs e)
+        {
+            diaCB.Items.Clear();
+            if ((mesCB.SelectedIndex == 0) || (mesCB.SelectedIndex == 2) || (mesCB.SelectedIndex == 4)
+                || (mesCB.SelectedIndex == 6) || (mesCB.SelectedIndex == 7) || (mesCB.SelectedIndex == 9) || (mesCB.SelectedIndex == 11))
+            {
+                for (int m = 1; m <= 31; m++)
+                    diaCB.Items.Add(m);
+            }
+            else if ((mesCB.SelectedIndex == 3) || (mesCB.SelectedIndex == 5) || (mesCB.SelectedIndex == 10) || (mesCB.SelectedIndex == 8))
+            {
+                for (int m = 1; m <= 30; m++)
+                    diaCB.Items.Add(m);
+            }
+            else
+            {
+                for (int m = 1; m <= 29; m++)
+                    diaCB.Items.Add(m);
+            }
+            diaCB.SelectedIndex = 0;
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -86,6 +129,17 @@ namespace SGRM
             catch(Exception ex)
             {
                 MessageBox.Show("Error: "+ex.Message);
+            }
+            
+            
+        }
+
+        private void agregarB_Click(object sender, RoutedEventArgs e)
+        {
+            string xxx = "";
+            foreach (object alergiaItem in listaAler.Items)
+            {
+                xxx += alergiaItem.ToString() + ",";
             }
         }
 
@@ -126,6 +180,7 @@ namespace SGRM
                     //MessageBox.Show("Falló la Digitalizacion!");
                     conexionArduino.Close();
                     estado = true;
+                    digitalizarB.IsEnabled = true;
                 }
 
             }
@@ -137,6 +192,7 @@ namespace SGRM
 
                 digitalizarB.IsEnabled = false;
                 agregarB.IsEnabled = true;
+                edadC.IsEnabled = true;
                 fotoB.IsEnabled = true;
                 nombreC.IsEnabled = true;
                 paternoC.IsEnabled = true;
@@ -160,8 +216,12 @@ namespace SGRM
                 alergiasB.IsEnabled = true;
                 enfermedadesB.IsEnabled = true;
                 operacionesB.IsEnabled = true;
+                agregAler.IsEnabled = true;
+                agregarEnfermedad.IsEnabled = true;
+                agregarOperacion.IsEnabled = true;
 
             }
+            
         }
 
         private void registroDB()
@@ -190,6 +250,48 @@ namespace SGRM
                 fotoCuadro.Source = myBitmapImage;
             }
             fotoB.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void alergiasB_Click(object sender, RoutedEventArgs e)
+        {
+            string ninguna = listaAler.Items.GetItemAt(0).ToString();
+
+            if (ninguna == "System.Windows.Controls.ListBoxItem: Ninguna")
+            {
+                listaAler.Items.Clear();
+                listaAler.IsEnabled = true;
+            }
+            
+            listaAler.Items.Add(agregAler.Text);
+            agregAler.Clear();
+        }
+
+        private void enfermedadesB_Click(object sender, RoutedEventArgs e)
+        {
+            string ninguna = listaEnfer.Items.GetItemAt(0).ToString();
+
+            if (ninguna == "System.Windows.Controls.ListBoxItem: Ninguna")
+            {
+                listaEnfer.Items.Clear();
+                listaEnfer.IsEnabled = true;
+            }
+
+            listaEnfer.Items.Add(agregarEnfermedad.Text);
+            agregarEnfermedad.Clear();
+        }
+
+        private void operacionesB_Click(object sender, RoutedEventArgs e)
+        {
+            string ninguna = listaOper.Items.GetItemAt(0).ToString();
+
+            if (ninguna == "System.Windows.Controls.ListBoxItem: Ninguna")
+            {
+                listaOper.Items.Clear();
+                listaOper.IsEnabled = true;
+            }
+
+            listaOper.Items.Add(agregarOperacion.Text);
+            agregarOperacion.Clear();
         }
     }
 }

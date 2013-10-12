@@ -28,7 +28,7 @@
                             <TextBox x:Name="idC" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104" Margin="188,10,0,0" IsReadOnly="True" IsEnabled="False"/>
 
                             <TextBox x:Name="paternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Paterno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="10,199,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="edadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="112" Margin="456,229,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="edadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="112" Margin="456,229,0,0" IsEnabled="False"/>
                             <TextBox x:Name="ciudadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad de Nacimiento" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Margin="10,229,0,0" IsEnabled="False"/>
                             <TextBox x:Name="nombreC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,168,0,0" IsEnabled="False"/>
                             <TextBox x:Name="maternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,199,0,0" IsEnabled="False"/>
@@ -42,39 +42,37 @@
                                HorizontalAlignment="Right" Margin="0,254,442,82" Width="126" Height="26" />
 
                             <ComboBox x:Name="añoCB" Margin="225,285,244,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
-                            <ComboBox x:Name="mesCB" Margin="96,285,358,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
+                            <ComboBox SelectionChanged="cambioMes" x:Name="mesCB" Margin="96,285,358,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
                             <ComboBox x:Name="diaCB" Margin="10,285,487,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
 
                             <Label Content="Grupo Sanguineo"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Right" Margin="0,254,123,82" Width="104" Height="26" />
-                            <ComboBox x:Name="sangreCB" Margin="351,285,123,51" SelectedIndex="0" IsEnabled="False">
-                                <ComboBoxItem Content="A positivo"/>
-                            </ComboBox>
+                            <ComboBox x:Name="sangreCB" Margin="351,285,123,51" SelectedIndex="0" IsEnabled="False"/>
                             <Image x:Name="fotoCuadro" HorizontalAlignment="Left" Height="153" Margin="10,10,0,0" VerticalAlignment="Top" Width="126"/>
                             <Button x:Name="fotoB" Content="Seleccionar foto" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,10,0,0" Height="153" IsEnabled="False" Click="fotoB_Click"/>
-                            <Button x:Name="agregarB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="128" Margin="440,10,0,0" Height="26" Click="Button_Click" IsEnabled="False"/>
+                            <Button x:Name="agregarB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="128" Margin="440,10,0,0" Height="26" Click="agregarB_Click" IsEnabled="False"/>
                             <ComboBox x:Name="estadoCB" Margin="172,230,244,106" SelectedIndex="0" IsEnabled="False"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Domicilio">
                         <Grid>
                             <TextBox x:Name="calleC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Calle" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,10,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="numC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Numero" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,10,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="numC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Numero" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,10,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
                             <TextBox x:Name="colC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Colonia" Height="19" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,41,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
                             <TextBox x:Name="ciudad2C" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad" Height="28" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,72,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="cpC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="C.P." Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,41,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="cpC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="C.P." Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,41,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
                             <ComboBox x:Name="estado2CB" Margin="333,72,10,256" SelectedIndex="0" IsEnabled="False">
                                 <ComboBoxItem Content="Aguascalientes"/>
                             </ComboBox>
                             <Label Content="Numeros Telefonicos"
                                VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,130,406,205" Width="162" Height="27" />
-                            <TextBox x:Name="telCasaC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono de casa" Height="16" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,162,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="telCelC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,193,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="telCasaC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono de casa" Height="16" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,162,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="telCelC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,193,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
                             <Label Content="Referencias"
                                VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,224,406,108" Width="162" Height="30" />
-                            <TextBox x:Name="refCasaC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono de casa" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,254,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="refCelC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,291,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <TextBox x:Name="refCasaC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,254,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="refCelC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,291,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
 
                         </Grid>
                     </TabItem>
@@ -84,27 +82,27 @@
                                 <Grid>
                                     <Label Content="Alergias"
                                      VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,10,397,271" Width="163" Height="26" IsEnabled="False" />
-                                    <ListBox Margin="10,67,397,10" IsEnabled="False">
+                                    <TextBox x:Name="agregAler" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Alergia" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" Margin="10,67,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                    <ListBox x:Name="listaAler" Margin="10,98,397,10" IsEnabled="False">
                                         <ListBoxItem Content="Ninguna"/>
                                     </ListBox>
 
                                     <Label Content="Enfermedades"
                                     	VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,10,204,271" Width="163" Height="26" IsEnabled="False" />
-                                    <ListBox Margin="203,67,204,10" IsEnabled="False">
+                                    <ListBox x:Name="listaEnfer" Margin="203,98,204,10" IsEnabled="False">
                                         <ListBoxItem Content="Ninguna"/>
                                     </ListBox>
                                     <Label Content="Operaciones"
                                     	VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,10,10,271" Width="163" Height="26" RenderTransformOrigin="2.006,0.577" IsEnabled="False" />
-                                    <Button x:Name="alergiasB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="10,36,0,0" Height="26" IsEnabled="False"/>
-                                    <ListBox Margin="397,67,10,10" IsEnabled="False">
+                                    <Button x:Name="alergiasB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="10,36,0,0" Height="26" IsEnabled="False" Click="alergiasB_Click"/>
+                                    <ListBox x:Name="listaOper" Margin="397,98,10,10" IsEnabled="False">
                                         <ListBoxItem Content="Ninguna"/>
                                     </ListBox>
-                                    <Button x:Name="enfermedadesB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="203,36,0,0" Height="26" IsEnabled="False"/>
-                                    <Button x:Name="operacionesB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="397,36,0,0" Height="26" IsEnabled="False"/>
+                                    <Button x:Name="enfermedadesB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="203,36,0,0" Height="26" IsEnabled="False" Click="enfermedadesB_Click"/>
+                                    <Button x:Name="operacionesB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="397,36,0,0" Height="26" IsEnabled="False" Click="operacionesB_Click"/>
+                                    <TextBox x:Name="agregarEnfermedad" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Enfermedad" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" Margin="203,67,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                    <TextBox x:Name="agregarOperacion" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Operacion" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" Margin="397,67,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
                                 </Grid>
-                            </TabItem>
-                            <TabItem Header="Datos Adicionales">
-
                             </TabItem>
                         </TabControl>
                     </TabItem>
