@@ -20,9 +20,13 @@ namespace SGRM
     /// </summary>
     public partial class Controles
     {
-
+        //Conexión serial a Arduino
         SerialPort conexionArduino = new SerialPort();
-        string ruta = ""; //Ruta de la imagen
+        
+        //Ruta de la copia de la foto de perfil del paciente
+        string rutaFinal = "";
+
+        //Lista de los estados para el combobox
         string[] estados = new string[] {"Aguascalientes",
                                         "Baja California",
                                         "Baja California Sur",
@@ -55,100 +59,115 @@ namespace SGRM
                                         "Veracruz",
                                         "Yucatán",
                                         "Zacatecas"};
+        
+        //Lista de los meses
         string[] meses = new string[] { "Enero", "Febrero", "Marzo", "Abril",
                                         "Mayo", "Junio", "Julio", "Agosto",
                                         "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-
+        
+        //Lista de los tipos de sangre
         string[] sangre = new string[] {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" };
 
-
+        //Constructor
         public Controles()
         {
             InitializeComponent();
+            
+            //Baudrate del puerto serial
             conexionArduino.BaudRate = 9600;
+
+            //Puerto Serial a usar
             conexionArduino.PortName = "COM3";
 
+            //Llenar el combobox de Estados
             foreach (string s in estados)
             {
                 estadoCB.Items.Add(s);
                 estado2CB.Items.Add(s);
             }
 
+            //Llenar el combobox de meses
             foreach (string mes in meses)
                 mesCB.Items.Add(mes);
 
+            //Llenar el combobox de los tipos de sangre
             foreach (string san in sangre)
                 sangreCB.Items.Add(san);
 
-            for (int y = 1920; y <= 2013; y++)
+            //Llenar el combobox de años hasta el año actual
+            DateTime dateTime1 = DateTime.UtcNow.Date; //Fecha actual
+            for (int y = 1920; y <= Convert.ToInt32(dateTime1.ToString("yyyy")); y++)
                 añoCB.Items.Add(y);
         }
 
+        //Funcion que verifica que ciertos textbox sean solo numericos
         private void numerosOnly(object sender, TextCompositionEventArgs e)
         {
-            foreach (char c in e.Text)
+            foreach (char c in e.Text) //Verifica cada caracter
             {
-                if (!char.IsDigit(c))
+                if (!char.IsDigit(c)) //Si es diferente de numerico
                 {
-                    e.Handled = true;
+                    e.Handled = true; //Evita el ingreso del caracter
                     break;
                 }
             }
         }
 
+        //Funcion que cambia los dias con respecto al mes
         private void cambioMes(object sender, SelectionChangedEventArgs e)
         {
-            diaCB.Items.Clear();
+            diaCB.Items.Clear(); //Limpia el combobox de dias
+            //Si el mes es...
             if ((mesCB.SelectedIndex == 0) || (mesCB.SelectedIndex == 2) || (mesCB.SelectedIndex == 4)
                 || (mesCB.SelectedIndex == 6) || (mesCB.SelectedIndex == 7) || (mesCB.SelectedIndex == 9) || (mesCB.SelectedIndex == 11))
             {
-                for (int m = 1; m <= 31; m++)
+                for (int m = 1; m <= 31; m++) //31 dias
                     diaCB.Items.Add(m);
             }
             else if ((mesCB.SelectedIndex == 3) || (mesCB.SelectedIndex == 5) || (mesCB.SelectedIndex == 10) || (mesCB.SelectedIndex == 8))
             {
-                for (int m = 1; m <= 30; m++)
+                for (int m = 1; m <= 30; m++) //30 dias
                     diaCB.Items.Add(m);
             }
             else
             {
-                for (int m = 1; m <= 29; m++)
+                for (int m = 1; m <= 29; m++) //Febrero con limite de 29 dias
                     diaCB.Items.Add(m);
             }
-            diaCB.SelectedIndex = 0;
+            diaCB.SelectedIndex = 0; //Selecciona el primer item por default. Dia 1
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //Funcion al dar click al boton de Digitalizar Huella
+        private void digiatlizarB_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                conexionArduino.Open();
-                Registro();
-                //registroDB();
+                conexionArduino.Open(); //Abre la conexion al arduino
+                Registro(); //Funcion para agregar la huella
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error: "+ex.Message);
+                MessageBox.Show("Error: "+ex.Message); //Mensaje de error si es que ocurre uno
             }
-            
-            
         }
 
+        //Funcion al dar click al boton Agregar. Registra al paciente en la DB.
         private void agregarB_Click(object sender, RoutedEventArgs e)
         {
-            string xxx = "";
-            foreach (object alergiaItem in listaAler.Items)
-            {
-                xxx += alergiaItem.ToString() + ",";
-            }
+            registroDB(); //Funcion que registra en la DB
         }
 
+        //Funcion que agrega la huella y libera los campos
         private void Registro()
         {
+            //Dehabilita el boton que de registro
             digitalizarB.IsEnabled = false;
+            //Estado actual
             bool estado = false;
+            //Envia un 1 por el serial
             conexionArduino.Write("1");
 
+            //Lee los mensajes del arduino
             while (conexionArduino.IsOpen)
             {
                 string mensaje = conexionArduino.ReadLine();
@@ -161,7 +180,7 @@ namespace SGRM
                     (mensaje == "Imposible capturar por segunda vez\r") ||
                     (mensaje == "Imposible capturar\r"))
                 {
-                    MessageBox.Show(mensaje);
+                    MessageBox.Show(mensaje); //Muestra el mensaje si no cae en ninguno de los anteriores
                 }
 
                 /**
@@ -170,26 +189,27 @@ namespace SGRM
                  * 1 = LECTURA CORRECTA
                  **/
 
-                if (mensaje == "1\r")
+                if (mensaje == "1\r") //Terminó todo correctamente
                 {
-                    //MessageBox.Show("Huella Registrada!");
-                    conexionArduino.Close();
+                    conexionArduino.Close(); //Cierra la conexion
                 }
-                else if (mensaje == "0\r")
+                else if (mensaje == "0\r") //Error
                 {
-                    //MessageBox.Show("Falló la Digitalizacion!");
-                    conexionArduino.Close();
-                    estado = true;
-                    digitalizarB.IsEnabled = true;
+                    conexionArduino.Close(); //Cierra la conexion
+                    estado = true; //Cambia el estado actual
+                    digitalizarB.IsEnabled = true; //Rehabilita el boton
                 }
 
             }
-            conexionArduino.Open();
-            if (!estado)
-            {
-                idC.Text = conexionArduino.ReadLine();
-                idC.Text = (int.Parse(idC.Text) + 1).ToString();
+            conexionArduino.Open(); //Vuelve a abrir la conexion
 
+            if (!estado) //Checa el estado actual, si no hay cambios...
+            {
+                idC.Text = conexionArduino.ReadLine(); //Lee el id del arduino
+                idC.Text = (int.Parse(idC.Text) + 1).ToString(); //Le suma 1 para cuestiones de la base de datos
+
+                //Habilita todo
+                //---------------------------------
                 digitalizarB.IsEnabled = false;
                 agregarB.IsEnabled = true;
                 edadC.IsEnabled = true;
@@ -199,6 +219,7 @@ namespace SGRM
                 maternoC.IsEnabled = true;
                 generoCB.IsEnabled = true;
                 ciudadC.IsEnabled = true;
+                cpC.IsEnabled = true;
                 estadoCB.IsEnabled = true;
                 diaCB.IsEnabled = true;
                 mesCB.IsEnabled = true;
@@ -219,39 +240,80 @@ namespace SGRM
                 agregAler.IsEnabled = true;
                 agregarEnfermedad.IsEnabled = true;
                 agregarOperacion.IsEnabled = true;
-
+                //----------------------------------------
             }
-            
         }
 
+        //Funcion que registra en la Base de datos
         private void registroDB()
         {
-            ConexionDB nuevoPaciente = new ConexionDB();
-            //nuevoPaciente.agregarPaciente();
+            string fecha = ""; //Cadena que llevará la fecha de nacimiento del paciente
+            ConexionDB nuevoPaciente = new ConexionDB(); //Objeto a la conexion de la DB
+
+            DateTime dateTime = DateTime.UtcNow.Date; //Objeto con la fecha actual
+
+            //Fecha de nacimiento del paciente
+            fecha = añoCB.SelectedItem.ToString() + "-" + Convert.ToString(mesCB.SelectedIndex + 1) + "-" + diaCB.SelectedItem.ToString();
+
+            string alergias = ""; //Cadena con las alergias del paciente
+            string operaciones = ""; //Cadena con las operaciones
+            string enfermedades = ""; //Cadena con las enfermedades
+
+            //Recorren los combobox para sacar sus elementos
+            if (listaAler.Items.GetItemAt(0).ToString() != "System.Windows.Controls.ListBoxItem: Ninguna")
+                foreach (object alergiaItem in listaAler.Items)
+                    alergias += alergiaItem.ToString() + "/";
+
+            //Recorren los combobox para sacar sus elementos
+            if (listaOper.Items.GetItemAt(0).ToString() != "System.Windows.Controls.ListBoxItem: Ninguna")
+                foreach (object operacionItem in listaOper.Items)
+                    operaciones += operacionItem.ToString() + "/";
+
+            //Recorren los combobox para sacar sus elementos
+            if (listaEnfer.Items.GetItemAt(0).ToString() != "System.Windows.Controls.ListBoxItem: Ninguna")
+                foreach (object enfermedadItem in listaEnfer.Items)
+                    enfermedades += enfermedadItem.ToString() + "/";
+
+            //Envio de los datos de los inputs al metodo de agregar paciente
+            if (nuevoPaciente.agregarPaciente(Convert.ToInt32(idC.Text), nombreC.Text, paternoC.Text, maternoC.Text, fecha, dateTime.ToString("yyyy-MM-dd"), generoCB.SelectedIndex + 1,
+                sangreCB.SelectedIndex + 1, rutaFinal, (Convert.ToInt32(idC.Text)) - 1, calleC.Text, Convert.ToInt32(numC.Text), colC.Text, ciudad2C.Text, estado2CB.SelectedItem.ToString(),
+                Convert.ToInt32(cpC.Text), Convert.ToInt32(telCasaC.Text), Convert.ToInt32(telCelC.Text), refCasaC.Text, Convert.ToInt32(refCelC.Text), alergias, operaciones, enfermedades))
+            {
+                limpiar();
+            }
+            else
+            {
+                MessageBox.Show("Imposible guardar!");
+            }
         }
 
+        //Funcion que maneja la foto del paciente
         private void fotoB_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog nuevaImagen = new Microsoft.Win32.OpenFileDialog();
+            string copiaDir = "D:\\Proyectos\\Projects\\SGRM\\Fotos\\"; //Directorio a copiar las fotos
+            Microsoft.Win32.OpenFileDialog nuevaImagen = new Microsoft.Win32.OpenFileDialog(); //Objeto manejador
 
-            nuevaImagen.DefaultExt = "JPEG (*.jpg)|*.jpg";
-            nuevaImagen.Filter = "JPEG (*.jpg)|*.jpg|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp";
+            nuevaImagen.DefaultExt = "JPEG (*.jpg)|*.jpg"; //Extension default de imagen
+            nuevaImagen.Filter = "JPEG (*.jpg)|*.jpg|PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp"; //Posibles extensiones
 
-            Nullable<bool> result = nuevaImagen.ShowDialog();
+            Nullable<bool> result = nuevaImagen.ShowDialog(); //Resultado
 
-            if (result == true)
+            if (result == true) //Si fue elegida una imagen ...
             {
-                BitmapImage myBitmapImage = new BitmapImage();
-                ruta = nuevaImagen.FileName;
-                myBitmapImage.BeginInit();
-                myBitmapImage.UriSource = new Uri(ruta);
+                BitmapImage myBitmapImage = new BitmapImage(); //Crear bitmap
+                string ruta = nuevaImagen.FileName; //Ruta original
+                myBitmapImage.BeginInit(); //Inicia
+                myBitmapImage.UriSource = new Uri(ruta); //Origen de la imagen
                 myBitmapImage.DecodePixelWidth = 126;
-                myBitmapImage.EndInit();
-                fotoCuadro.Source = myBitmapImage;
+                myBitmapImage.EndInit(); //Fin
+                fotoCuadro.Source = myBitmapImage; //Cuadro de la aplicacion muestra la imagen
+                System.IO.File.Copy(ruta, (copiaDir + nuevaImagen.SafeFileName)); //Copia la imagen a otra carpeta
             }
-            fotoB.Visibility = System.Windows.Visibility.Hidden;
+            fotoB.Visibility = System.Windows.Visibility.Hidden; //Esconde el boton de la foto
+            rutaFinal = (copiaDir + nuevaImagen.SafeFileName); //Guarda en la variable global la ruta de la foto copiada
+            
         }
-
+        //Agregar Alergia
         private void alergiasB_Click(object sender, RoutedEventArgs e)
         {
             string ninguna = listaAler.Items.GetItemAt(0).ToString();
@@ -265,7 +327,7 @@ namespace SGRM
             listaAler.Items.Add(agregAler.Text);
             agregAler.Clear();
         }
-
+        //Agregar Enfermedad
         private void enfermedadesB_Click(object sender, RoutedEventArgs e)
         {
             string ninguna = listaEnfer.Items.GetItemAt(0).ToString();
@@ -279,7 +341,7 @@ namespace SGRM
             listaEnfer.Items.Add(agregarEnfermedad.Text);
             agregarEnfermedad.Clear();
         }
-
+        //Agregar Operaciones
         private void operacionesB_Click(object sender, RoutedEventArgs e)
         {
             string ninguna = listaOper.Items.GetItemAt(0).ToString();
@@ -292,6 +354,64 @@ namespace SGRM
 
             listaOper.Items.Add(agregarOperacion.Text);
             agregarOperacion.Clear();
+        }
+
+        private void limpiar()
+        {
+            digitalizarB.IsEnabled = true;
+            agregarB.IsEnabled = false;
+            edadC.IsEnabled = false;
+            fotoB.IsEnabled = false;
+            nombreC.IsEnabled = false;
+            paternoC.IsEnabled = false;
+            maternoC.IsEnabled = false;
+            generoCB.IsEnabled = false;
+            ciudadC.IsEnabled = false;
+            cpC.IsEnabled = false;
+            estadoCB.IsEnabled = false;
+            diaCB.IsEnabled = false;
+            mesCB.IsEnabled = false;
+            añoCB.IsEnabled = false;
+            sangreCB.IsEnabled = false;
+            calleC.IsEnabled = false;
+            numC.IsEnabled = false;
+            colC.IsEnabled = false;
+            ciudad2C.IsEnabled = false;
+            estado2CB.IsEnabled = false;
+            telCasaC.IsEnabled = false;
+            telCelC.IsEnabled = false;
+            refCasaC.IsEnabled = false;
+            refCelC.IsEnabled = false;
+            alergiasB.IsEnabled = false;
+            enfermedadesB.IsEnabled = false;
+            operacionesB.IsEnabled = false;
+            agregAler.IsEnabled = false;
+            agregarEnfermedad.IsEnabled = false;
+            agregarOperacion.IsEnabled = false;
+            edadC.IsEnabled = false;
+
+            nombreC.Clear();
+            paternoC.Clear();
+            maternoC.Clear();
+            ciudadC.Clear();
+            cpC.Clear();
+            generoCB.SelectedIndex = 0;
+            estadoCB.SelectedIndex = 0;
+            diaCB.SelectedIndex = 0;
+            mesCB.SelectedIndex = 0;
+            añoCB.SelectedIndex = 0;
+            sangreCB.SelectedIndex = 0;
+            calleC.Clear();
+            numC.Clear();
+            colC.Clear();
+            ciudad2C.Clear();
+            estado2CB.SelectedIndex = 0;
+            telCasaC.Clear();
+            telCelC.Clear();
+            refCasaC.Clear();
+            refCelC.Clear();
+
+            fotoB.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

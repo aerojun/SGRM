@@ -33,7 +33,7 @@
             <Button Content="Ingresar" 
                                 Margin="183,0,183,85"
                                 VerticalAlignment="Bottom" 
-                                Style="{DynamicResource SquareButtonStyle}" Click="Button_Click"/>
+                                Style="{DynamicResource SquareButtonStyle}" Click="Button_Click" IsDefault="True"/>
             <Controls:ProgressRing x:Name="progreso" IsActive="True" Margin="233,250,224,10" Visibility="Hidden"  />
         </Grid>
     </Controls:MetroContentControl>

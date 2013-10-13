@@ -23,36 +23,40 @@
                 <TabControl>
                     <TabItem Header="Datos Generales">
                         <Grid Height="362" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="578">
-                            <Button x:Name="digitalizarB" Content="Digitalizar Huella" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="297,10,0,0" Height="26" Click="Button_Click"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="145*"/>
+                                <ColumnDefinition Width="144*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="digitalizarB" Content="Digitalizar Huella" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="7,10,0,0" Height="26" Click="digiatlizarB_Click" Grid.Column="1"/>
                             <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="141,9,0,0" Width="42"/>
-                            <TextBox x:Name="idC" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104" Margin="188,10,0,0" IsReadOnly="True" IsEnabled="False"/>
+                            <TextBox x:Name="idC" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104" Margin="188,10,0,0" IsReadOnly="True" IsEnabled="False" Grid.ColumnSpan="2"/>
 
                             <TextBox x:Name="paternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Paterno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="10,199,0,0" IsEnabled="False"/>
-                            <TextBox PreviewTextInput="numerosOnly" x:Name="edadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="112" Margin="456,229,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="edadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="112" Margin="166,229,0,0" IsEnabled="False" Grid.Column="1"/>
                             <TextBox x:Name="ciudadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad de Nacimiento" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Margin="10,229,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="nombreC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,168,0,0" IsEnabled="False"/>
-                            <TextBox x:Name="maternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,199,0,0" IsEnabled="False"/>
+                            <TextBox x:Name="nombreC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,168,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
+                            <TextBox x:Name="maternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,199,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
                             <ComboBox x:Name="generoCB"                              
-                                  SelectedIndex="0" Margin="456,199,10,137" IsEnabled="False">
+                                  SelectedIndex="0" Margin="166,199,10,137" IsEnabled="False" Grid.Column="1">
                                 <ComboBoxItem Content="Masculino" />
                                 <ComboBoxItem Content="Femenino" />
                             </ComboBox>
                             <Label Content="Fecha de Nacimiento"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Right" Margin="0,254,442,82" Width="126" Height="26" />
+                               HorizontalAlignment="Right" Margin="0,254,154,82" Width="126" Height="26" />
 
-                            <ComboBox x:Name="añoCB" Margin="225,285,244,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
-                            <ComboBox SelectionChanged="cambioMes" x:Name="mesCB" Margin="96,285,358,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
-                            <ComboBox x:Name="diaCB" Margin="10,285,487,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
+                            <ComboBox x:Name="añoCB" Margin="225,285,244,51" SelectedIndex="0" IsEnabled="False" Grid.ColumnSpan="2"></ComboBox>
+                            <ComboBox SelectionChanged="cambioMes" x:Name="mesCB" Margin="96,285,70,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
+                            <ComboBox x:Name="diaCB" Margin="10,285,199,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
 
                             <Label Content="Grupo Sanguineo"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Right" Margin="0,254,123,82" Width="104" Height="26" />
-                            <ComboBox x:Name="sangreCB" Margin="351,285,123,51" SelectedIndex="0" IsEnabled="False"/>
+                               HorizontalAlignment="Right" Margin="0,254,123,82" Width="104" Height="26" Grid.Column="1" />
+                            <ComboBox x:Name="sangreCB" Margin="61,285,123,51" SelectedIndex="0" IsEnabled="False" Grid.Column="1"/>
                             <Image x:Name="fotoCuadro" HorizontalAlignment="Left" Height="153" Margin="10,10,0,0" VerticalAlignment="Top" Width="126"/>
-                            <Button x:Name="fotoB" Content="Seleccionar foto" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,10,0,0" Height="153" IsEnabled="False" Click="fotoB_Click"/>
-                            <Button x:Name="agregarB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="128" Margin="440,10,0,0" Height="26" Click="agregarB_Click" IsEnabled="False"/>
-                            <ComboBox x:Name="estadoCB" Margin="172,230,244,106" SelectedIndex="0" IsEnabled="False"/>
+                            <Button x:Name="fotoB" Content="Seleccionar foto" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,10,0,0" Height="153" Click="fotoB_Click"/>
+                            <Button x:Name="agregarB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="128" Margin="150,10,0,0" Height="26" Click="agregarB_Click" Grid.Column="1" IsEnabled="False"/>
+                            <ComboBox x:Name="estadoCB" Margin="172,230,244,106" SelectedIndex="0" IsEnabled="False" Grid.ColumnSpan="2"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Domicilio">
