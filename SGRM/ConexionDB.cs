@@ -93,13 +93,6 @@ namespace SGRM
                 * Tabla de Datos del Paciente
                 */
 
-                /*string query = "INSERT INTO paciente (id, Nombre, ApellidoP, ApellidoM, Fecha_Nacimiento, Fecha_Registro, id_Genero, id_Tipo_Sangre, id_Ant_Pat, id_Datos_Adicionales, Fotografia, Huella) VALUES ('"
-                + id + "','" + nombre + "','" + ap + "','" + am + "','" + nac + "','" + reg + "','" + gen + "','" + sang + "','" + antPat + "','" + dat + "', ?Fotografia ,'" + huella + "')";
-
-                query.Parameters.AddWithValue("?Fotografia", foto);
-
-                enviarQuery = new MySqlCommand(query, conexionn);*/
-
                 using (var query = conexionn.CreateCommand())
                 {
                     query.CommandText = "INSERT INTO paciente (id, Nombre, ApellidoP, ApellidoM, Fecha_Nacimiento, Fecha_Registro, id_Genero, id_Tipo_Sangre, id_Ant_Pat, id_Datos_Adicionales, Fotografia, Huella) VALUES ('"
@@ -123,6 +116,120 @@ namespace SGRM
         public bool eliminarAlumno()
         {
             return false;
+        }
+
+        public Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> busquedaPaciente(int id)
+        {
+            string query = "SELECT * FROM paciente WHERE Huella = '"+id+"'";
+            int antecedentes = 0;
+            int adicionales = 0;
+            //----------------
+            string id2 = ""; //Id del paciente
+            string nombre = ""; //Nombre
+            string ap = ""; //Apellido Paterno
+            string am = ""; //Apellido Materno
+            string nac = ""; //Fecha de Nacimiento
+            int gen = 0; //Genero
+            int sang = 0; //Tipo de Sangre
+            string foto = ""; //Localización de la foto de perfil
+            //---------------
+            string calle = ""; //Calle
+            string numero = ""; //Numero
+            string colonia = ""; //Colonia
+            string ciudad = ""; //Ciudad
+            string estado = ""; //Estado
+            string cp = ""; //CP
+            string tel = ""; //Telefono
+            string celular = ""; //Celular
+            string nRef = ""; // Nombre de la Referencia
+            string tRef = ""; //Telefono de la Referencia
+            //----------------
+            string alergia = "";
+            string oper = "";
+            string enfer = "";
+
+            Tuple<string, string, string, string, string, int, int, Tuple<string>> datosPaciente;
+            Tuple<string, string, string, string, string, string, string, Tuple<string>> datosAdicionalesPaciente;
+            Tuple<string, string> datosAdicionalesPaciente2;
+            Tuple<string, string, string> antecedentesPaciente;
+            Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> data;
+
+            MySqlCommand enviarQuery = new MySqlCommand(query, conexionn);
+
+            try
+            {
+                //Abrir conexion
+                conexionn.Open();
+
+                //Enviar query
+                MySqlDataReader reader = enviarQuery.ExecuteReader();
+
+                while (reader.Read())
+                {
+                     id2 = reader.GetString("id");
+                     nombre = reader.GetString("Nombre");
+                     ap = reader.GetString("ApellidoP");
+                     am = reader.GetString("ApellidoM");
+                     nac = reader.GetString("Fecha_Nacimiento");
+                     gen = Convert.ToInt32(reader.GetString("id_Genero"));
+                     sang = Convert.ToInt32(reader.GetString("id_Tipo_Sangre"));
+                     foto = reader.GetString("Fotografia");
+                     antecedentes = Convert.ToInt32(reader.GetString("id_Ant_Pat"));
+                     adicionales = Convert.ToInt32(reader.GetString("id_Datos_Adicionales"));
+                }
+                reader.Dispose();
+
+                datosPaciente = new Tuple<string, string, string, string, string, int, int, Tuple<string>>(id2, nombre, ap, am, nac, gen, sang, Tuple.Create(foto));
+                //----------------------------------------------------------------------------
+                query = "SELECT * FROM datos_adicionales WHERE id = '" + adicionales + "'";
+                enviarQuery = new MySqlCommand(query, conexionn);
+                reader = enviarQuery.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    calle = reader.GetString("Calle");
+                    numero = reader.GetString("Numero");
+                    colonia = reader.GetString("Colonia");
+                    ciudad = reader.GetString("Ciudad");
+                    estado = reader.GetString("Estado");
+                    cp =reader.GetString("CP");
+                    tel = reader.GetString("Telefono");
+                    celular = reader.GetString("Celular");
+                    nRef = reader.GetString("Nombre_Ref");
+                    tRef = reader.GetString("Telefono_Ref");
+                }
+                datosAdicionalesPaciente = new Tuple<string, string, string, string, string, string, string, Tuple<string>>(calle, numero, colonia, ciudad, estado, cp, tel, Tuple.Create(celular));
+                datosAdicionalesPaciente2 = new Tuple<string, string>(nRef, tRef);
+                reader.Dispose();
+                //----------------------------------------------------------------------------
+                query = "SELECT * FROM antecedente_patologico WHERE id = '" + antecedentes + "'";
+                enviarQuery = new MySqlCommand(query, conexionn);
+                reader = enviarQuery.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    alergia = reader.GetString("Alergias");
+                    oper = reader.GetString("Enfermedades");
+                    enfer = reader.GetString("Operaciones");
+                    
+                }
+                reader.Dispose();
+                antecedentesPaciente = new Tuple<string, string, string>(alergia, oper, enfer);
+
+                data = new Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>>(datosPaciente, datosAdicionalesPaciente, datosAdicionalesPaciente2, antecedentesPaciente);
+                return data;
+            }
+            catch (MySqlException error)
+            {
+                Tuple<string, string, string, string, string, int, int, Tuple<string>> datosPacientee = new Tuple<string, string, string, string, string, int, int, Tuple<string>>("", "", "", "", "", 0, 0, Tuple.Create(""));
+                Tuple<string, string, string, string, string, string, string, Tuple<string>> datosAdicionalesPacientee = new Tuple<string, string, string, string, string, string, string, Tuple<string>>("", "", "", "", "", "", "", Tuple.Create(""));
+                Tuple<string, string> datosAdicionalesPaciente22 = new Tuple<string, string>("","");
+                Tuple<string, string, string> antecedentesPacientee = new Tuple<string, string, string>("","","");
+                Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> dato;
+                dato = new Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>>(datosPacientee, datosAdicionalesPacientee, datosAdicionalesPaciente22, antecedentesPacientee);
+                System.Windows.MessageBox.Show("Error: " + error);
+                return dato;
+            }
         }
     }
 }

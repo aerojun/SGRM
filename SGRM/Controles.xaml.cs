@@ -68,11 +68,18 @@ namespace SGRM
         //Lista de los tipos de sangre
         string[] sangre = new string[] {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" };
 
-        //Constructor
+          //Constructor
         public Controles()
         {
+            Uri NewTheme1 = new Uri(@"/MahApps.Metro;component/Styles/Colours.xaml", UriKind.Relative);
+            Uri NewTheme = new Uri(@"/MahApps.Metro;component/Styles/Accents/Blue.xaml", UriKind.Relative);
+            ResourceDictionary dictionary = (ResourceDictionary)Application.LoadComponent(NewTheme);
+            Application.Current.Resources.MergedDictionaries.Add(dictionary);
+            ResourceDictionary dictionary1 = (ResourceDictionary)Application.LoadComponent(NewTheme1);
+            Application.Current.Resources.MergedDictionaries.Add(dictionary1);
+
             InitializeComponent();
-            
+         
             //Baudrate del puerto serial
             conexionArduino.BaudRate = 9600;
 
@@ -412,6 +419,112 @@ namespace SGRM
             refCelC.Clear();
 
             fotoB.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void buscarPaciente(object sender, RoutedEventArgs e)
+        {
+            Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> data;
+            MessageBox.Show("Ponga la huella del paciente");
+            int id = 200;
+            string idd = "";
+            try
+            {
+                conexionArduino.Open(); //Abre la conexion al arduino
+
+                conexionArduino.Write("0");
+
+                while (conexionArduino.IsOpen)
+                {
+                    idd = conexionArduino.ReadLine();
+                    id = Convert.ToInt32(idd);
+                    if (id != 200)
+                    {
+                        conexionArduino.Close();
+                    }
+                    else
+                    {
+                        conexionArduino.Close();
+                        MessageBox.Show("Paciente no encontrado!");
+                        return;
+                    }
+                }
+                ConexionDB busqueda = new ConexionDB();
+                data = busqueda.busquedaPaciente(id);
+                //----------------------------------------------------------------------------
+                idC.Text = data.Item1.Item1;
+                nombreC.Text = data.Item1.Item2;
+                paternoC.Text = data.Item1.Item3;
+                maternoC.Text = data.Item1.Item4;
+                string temp = data.Item1.Item5;
+                diaCB.SelectedIndex = Convert.ToInt32(temp.Substring(0, 2)) - 1;
+                mesCB.SelectedIndex = Convert.ToInt32(temp.Substring(4, 1)) - 1;
+                añoCB.SelectedIndex = Convert.ToInt32(temp.Substring(6, 4)) - 1;
+                generoCB.SelectedIndex = data.Item1.Item6 - 1;
+                sangreCB.SelectedIndex = data.Item1.Item7 - 1;
+                rutaFinal = data.Item1.Rest.Item1.Replace(@"\", @"\\");
+                fotoB.Visibility = System.Windows.Visibility.Hidden;
+                //----------------------------------------------------------------------------
+                BitmapImage myBitmapImage = new BitmapImage(); //Crear bitmap
+                myBitmapImage.BeginInit(); //Inicia
+                myBitmapImage.UriSource = new Uri(rutaFinal); //Origen de la imagen
+                myBitmapImage.DecodePixelWidth = 126;
+                myBitmapImage.EndInit(); //Fin
+                fotoCuadro.Source = myBitmapImage; //Cuadro de la aplicacion muestra la imagen
+                //---------------------------------------------------------------------------
+                calleC.Text = data.Item2.Item1;
+                numC.Text = data.Item2.Item2;
+                colC.Text = data.Item2.Item3;
+                ciudad2C.Text = data.Item2.Item4;
+
+                int x = 0;
+                foreach (object esta in estado2CB.Items)
+                {
+                    if (esta.ToString().Contains(data.Item2.Item5))
+                    {
+                        estado2CB.SelectedIndex = x;
+                    }
+                    x++;
+                }
+                cpC.Text = data.Item2.Item6;
+                telCasaC.Text = data.Item2.Item7;
+                telCelC.Text = data.Item2.Rest.Item1;
+                refCasaC.Text = data.Item3.Item1;
+                refCelC.Text = data.Item3.Item2;
+                //---------------------------------------------------------------------
+                string temp2 = data.Item4.Item1;
+                string temp3 = data.Item4.Item2;
+                string temp4 = data.Item4.Item3;
+
+                char[] delimiters = new char[] { '/', ' ' };
+                string[] al = temp2.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                string[] en = temp3.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                string[] op = temp4.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+                listaEnfer.Items.Clear();
+                listaAler.Items.Clear();
+                listaOper.Items.Clear();
+
+                foreach (string tipo in al)
+                    listaAler.Items.Add(tipo);
+                foreach (string tipo in en)
+                    listaEnfer.Items.Add(tipo);
+                foreach (string tipo in op)
+                    listaOper.Items.Add(tipo);
+
+                if (listaAler.Items.Count > 0)
+                {
+    
+                    Uri NewTheme = new Uri(@"/MahApps.Metro;component/Styles/Accents/Red.xaml", UriKind.Relative);
+                    ResourceDictionary dictionary = (ResourceDictionary)Application.LoadComponent(NewTheme);
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message); //Mensaje de error si es que ocurre uno
+            }
+            conexionArduino.Close();
+            nPaciente.Focus();
         }
     }
 }

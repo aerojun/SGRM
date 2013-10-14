@@ -7,11 +7,11 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -19,7 +19,7 @@
 
     <Controls:MetroContentControl>
         <TabControl>
-            <TabItem Header="Nuevo Paciente">
+            <TabItem x:Name="nPaciente" Header="Nuevo Paciente">
                 <TabControl>
                     <TabItem Header="Datos Generales">
                         <Grid Height="362" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="578">
@@ -112,7 +112,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Buscar Paciente">
+            <TabItem Header="Buscar Paciente" MouseUp="buscarPaciente">
                 <Grid></Grid>
             </TabItem>
         </TabControl>
