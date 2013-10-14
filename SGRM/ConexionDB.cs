@@ -53,7 +53,7 @@ namespace SGRM
             }
         }
 
-        public bool agregarPaciente(int id, string nombre, string ap, string am, string nac, string reg, int gen, int sang, string foto, int huella, string calle, int numero, string colonia, string ciudad, string estado, int cp, int tel, int celular, string nRef, int tRef, string alergia, string oper, string enfer  )
+        public bool agregarPaciente(int id, string nombre, string ap, string am, string nac, string reg, int gen, int sang, string foto, int huella, string calle, int numero, string colonia, string ciudad, string estado, int cp, int tel, int celular, string nRef, int tRef, string alergia, string oper, string enfer, string cNacimiento, string eNacimiento, string edad  )
         {
             int antPat = 0;
             int dat = 0;
@@ -95,8 +95,8 @@ namespace SGRM
 
                 using (var query = conexionn.CreateCommand())
                 {
-                    query.CommandText = "INSERT INTO paciente (id, Nombre, ApellidoP, ApellidoM, Fecha_Nacimiento, Fecha_Registro, id_Genero, id_Tipo_Sangre, id_Ant_Pat, id_Datos_Adicionales, Fotografia, Huella) VALUES ('"
-                + id + "','" + nombre + "','" + ap + "','" + am + "','" + nac + "','" + reg + "','" + gen + "','" + sang + "','" + antPat + "','" + dat + "', ?Fotografia ,'" + huella + "')";
+                    query.CommandText = "INSERT INTO paciente (id, Nombre, ApellidoP, ApellidoM, Fecha_Nacimiento, Fecha_Registro, id_Genero, id_Tipo_Sangre, id_Ant_Pat, id_Datos_Adicionales, Fotografia, Huella, ciudad_nacimiento, estado_nacimiento, edad) VALUES ('"
+                + id + "','" + nombre + "','" + ap + "','" + am + "','" + nac + "','" + reg + "','" + gen + "','" + sang + "','" + antPat + "','" + dat + "', ?Fotografia ,'" + huella +"', '"+ cNacimiento+"','"+eNacimiento+"','"+edad+"')";
 
                     query.Parameters.AddWithValue("?Fotografia", foto);
 
@@ -118,7 +118,7 @@ namespace SGRM
             return false;
         }
 
-        public Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> busquedaPaciente(int id)
+        public Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> busquedaPaciente(int id)
         {
             string query = "SELECT * FROM paciente WHERE Huella = '"+id+"'";
             int antecedentes = 0;
@@ -132,6 +132,9 @@ namespace SGRM
             int gen = 0; //Genero
             int sang = 0; //Tipo de Sangre
             string foto = ""; //Localización de la foto de perfil
+            string cNacimiento = "";
+            string eNacimiento = "";
+            string edad = "";
             //---------------
             string calle = ""; //Calle
             string numero = ""; //Numero
@@ -148,11 +151,11 @@ namespace SGRM
             string oper = "";
             string enfer = "";
 
-            Tuple<string, string, string, string, string, int, int, Tuple<string>> datosPaciente;
+            Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>> datosPaciente;
             Tuple<string, string, string, string, string, string, string, Tuple<string>> datosAdicionalesPaciente;
             Tuple<string, string> datosAdicionalesPaciente2;
             Tuple<string, string, string> antecedentesPaciente;
-            Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> data;
+            Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> data;
 
             MySqlCommand enviarQuery = new MySqlCommand(query, conexionn);
 
@@ -176,10 +179,13 @@ namespace SGRM
                      foto = reader.GetString("Fotografia");
                      antecedentes = Convert.ToInt32(reader.GetString("id_Ant_Pat"));
                      adicionales = Convert.ToInt32(reader.GetString("id_Datos_Adicionales"));
+                     cNacimiento = reader.GetString("ciudad_nacimiento");
+                     eNacimiento = reader.GetString("estado_nacimiento");
+                     edad = reader.GetString("edad");
                 }
                 reader.Dispose();
 
-                datosPaciente = new Tuple<string, string, string, string, string, int, int, Tuple<string>>(id2, nombre, ap, am, nac, gen, sang, Tuple.Create(foto));
+                datosPaciente = new Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>(id2, nombre, ap, am, nac, gen, sang, Tuple.Create(foto, cNacimiento, eNacimiento, edad));
                 //----------------------------------------------------------------------------
                 query = "SELECT * FROM datos_adicionales WHERE id = '" + adicionales + "'";
                 enviarQuery = new MySqlCommand(query, conexionn);
@@ -216,17 +222,17 @@ namespace SGRM
                 reader.Dispose();
                 antecedentesPaciente = new Tuple<string, string, string>(alergia, oper, enfer);
 
-                data = new Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>>(datosPaciente, datosAdicionalesPaciente, datosAdicionalesPaciente2, antecedentesPaciente);
+                data = new Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>>(datosPaciente, datosAdicionalesPaciente, datosAdicionalesPaciente2, antecedentesPaciente);
                 return data;
             }
             catch (MySqlException error)
             {
-                Tuple<string, string, string, string, string, int, int, Tuple<string>> datosPacientee = new Tuple<string, string, string, string, string, int, int, Tuple<string>>("", "", "", "", "", 0, 0, Tuple.Create(""));
+                Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>> datosPacientee = new Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>("", "", "", "", "", 0, 0, Tuple.Create("", "", "", ""));
                 Tuple<string, string, string, string, string, string, string, Tuple<string>> datosAdicionalesPacientee = new Tuple<string, string, string, string, string, string, string, Tuple<string>>("", "", "", "", "", "", "", Tuple.Create(""));
                 Tuple<string, string> datosAdicionalesPaciente22 = new Tuple<string, string>("","");
                 Tuple<string, string, string> antecedentesPacientee = new Tuple<string, string, string>("","","");
-                Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> dato;
-                dato = new Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>>(datosPacientee, datosAdicionalesPacientee, datosAdicionalesPaciente22, antecedentesPacientee);
+                Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> dato;
+                dato = new Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>>(datosPacientee, datosAdicionalesPacientee, datosAdicionalesPaciente22, antecedentesPacientee);
                 System.Windows.MessageBox.Show("Error: " + error);
                 return dato;
             }

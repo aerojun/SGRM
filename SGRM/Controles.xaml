@@ -7,11 +7,11 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />-->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />-->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -112,8 +112,10 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Buscar Paciente" MouseUp="buscarPaciente">
-                <Grid></Grid>
+            <TabItem Header="Buscar Paciente" MouseUp="buscarWait">
+                <Grid>
+                    <Controls:ProgressRing x:Name="progresoBusqueda" IsActive="True" Margin="200,102,200,117" Visibility="Visible" Height="198" Width="186" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+                </Grid>
             </TabItem>
         </TabControl>
 

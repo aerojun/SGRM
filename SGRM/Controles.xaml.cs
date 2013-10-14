@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO.Ports;
+using System.Threading;
+using System.ComponentModel;
 
 namespace SGRM
 {
@@ -68,7 +70,9 @@ namespace SGRM
         //Lista de los tipos de sangre
         string[] sangre = new string[] {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" };
 
-          //Constructor
+        BackgroundWorker backgroundWorker1 = new BackgroundWorker();
+
+        //Constructor
         public Controles()
         {
             Uri NewTheme1 = new Uri(@"/MahApps.Metro;component/Styles/Colours.xaml", UriKind.Relative);
@@ -284,7 +288,7 @@ namespace SGRM
             //Envio de los datos de los inputs al metodo de agregar paciente
             if (nuevoPaciente.agregarPaciente(Convert.ToInt32(idC.Text), nombreC.Text, paternoC.Text, maternoC.Text, fecha, dateTime.ToString("yyyy-MM-dd"), generoCB.SelectedIndex + 1,
                 sangreCB.SelectedIndex + 1, rutaFinal, (Convert.ToInt32(idC.Text)) - 1, calleC.Text, Convert.ToInt32(numC.Text), colC.Text, ciudad2C.Text, estado2CB.SelectedItem.ToString(),
-                Convert.ToInt32(cpC.Text), Convert.ToInt32(telCasaC.Text), Convert.ToInt32(telCelC.Text), refCasaC.Text, Convert.ToInt32(refCelC.Text), alergias, operaciones, enfermedades))
+                Convert.ToInt32(cpC.Text), Convert.ToInt32(telCasaC.Text), Convert.ToInt32(telCelC.Text), refCasaC.Text, Convert.ToInt32(refCelC.Text), alergias, operaciones, enfermedades, ciudadC.Text, estadoCB.SelectedItem.ToString(), edadC.Text))
             {
                 limpiar();
             }
@@ -421,9 +425,21 @@ namespace SGRM
             fotoB.Visibility = System.Windows.Visibility.Visible;
         }
 
+        private void buscarWait(object sender, RoutedEventArgs e)
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += delegate
+            {
+                Dispatcher.BeginInvoke(new Action(delegate { progresoBusqueda.Visibility = System.Windows.Visibility.Visible; }));
+                Thread.Sleep(1000);
+                Dispatcher.BeginInvoke(new Action(delegate { buscarPaciente(sender, e); }));
+            };
+            worker.RunWorkerAsync();
+        }
+
         private void buscarPaciente(object sender, RoutedEventArgs e)
         {
-            Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> data;
+            Tuple<Tuple<string, string, string, string, string, int, int, Tuple<string, string, string, string>>, Tuple<string, string, string, string, string, string, string, Tuple<string>>, Tuple<string, string>, Tuple<string, string, string>> data;
             MessageBox.Show("Ponga la huella del paciente");
             int id = 200;
             string idd = "";
@@ -445,9 +461,11 @@ namespace SGRM
                     {
                         conexionArduino.Close();
                         MessageBox.Show("Paciente no encontrado!");
+                        nPaciente.Focus();
                         return;
                     }
                 }
+
                 ConexionDB busqueda = new ConexionDB();
                 data = busqueda.busquedaPaciente(id);
                 //----------------------------------------------------------------------------
@@ -455,10 +473,31 @@ namespace SGRM
                 nombreC.Text = data.Item1.Item2;
                 paternoC.Text = data.Item1.Item3;
                 maternoC.Text = data.Item1.Item4;
+                ciudadC.Text = data.Item1.Rest.Item2;
+
+                int w = 0;
+                foreach (object esta in estadoCB.Items)
+                {
+                    if (esta.ToString().Contains(data.Item1.Rest.Item3))
+                    {
+                        estadoCB.SelectedIndex = w;
+                    }
+                    w++;
+                }
+
+                edadC.Text = data.Item1.Rest.Item4;
+
                 string temp = data.Item1.Item5;
-                diaCB.SelectedIndex = Convert.ToInt32(temp.Substring(0, 2)) - 1;
+                                
                 mesCB.SelectedIndex = Convert.ToInt32(temp.Substring(4, 1)) - 1;
-                añoCB.SelectedIndex = Convert.ToInt32(temp.Substring(6, 4)) - 1;
+
+                int y = 0;
+                foreach (object anio in añoCB.Items)
+                {
+                    if (anio.ToString().Contains(temp.Substring(6, 4)))
+                        añoCB.SelectedIndex = y;
+                    y++;
+                }
                 generoCB.SelectedIndex = data.Item1.Item6 - 1;
                 sangreCB.SelectedIndex = data.Item1.Item7 - 1;
                 rutaFinal = data.Item1.Rest.Item1.Replace(@"\", @"\\");
@@ -485,6 +524,7 @@ namespace SGRM
                     }
                     x++;
                 }
+
                 cpC.Text = data.Item2.Item6;
                 telCasaC.Text = data.Item2.Item7;
                 telCelC.Text = data.Item2.Rest.Item1;
@@ -513,10 +553,26 @@ namespace SGRM
 
                 if (listaAler.Items.Count > 0)
                 {
-    
+
                     Uri NewTheme = new Uri(@"/MahApps.Metro;component/Styles/Accents/Red.xaml", UriKind.Relative);
                     ResourceDictionary dictionary = (ResourceDictionary)Application.LoadComponent(NewTheme);
                     Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                }
+                else
+                {
+                    Uri NewTheme = new Uri(@"/MahApps.Metro;component/Styles/Accents/Blue.xaml", UriKind.Relative);
+                    ResourceDictionary dictionary = (ResourceDictionary)Application.LoadComponent(NewTheme);
+                    Application.Current.Resources.MergedDictionaries.Add(dictionary);
+                }
+
+                string dia = data.Item1.Item5.Substring(0, 2);
+
+                int z = 0;
+                foreach (object diaa in diaCB.Items)
+                {
+                    if (diaa.ToString().Contains(dia))
+                        diaCB.SelectedIndex = z;
+                    z++;
                 }
             }
             catch (Exception ex)
