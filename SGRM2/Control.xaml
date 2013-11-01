@@ -1,0 +1,122 @@
+﻿<Controls:MetroWindow x:Class="SGRM2.Control"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Sistema Global de Registro Médico" Height="500" Width="600" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroContentControl>
+        <TabControl>
+            <TabItem x:Name="nPaciente" Header="Nuevo Paciente">
+                <TabControl>
+                    <TabItem Header="Datos Generales">
+                        <Grid x:Name="grid1" Height="362" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="578">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="145*"/>
+                                <ColumnDefinition Width="144*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="digitalizarB" Content="Digitalizar Huella" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="7,10,0,0" Height="26" Click="digitalizarB_Click" Grid.Column="1"/>
+                            <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="141,9,0,0" Width="42"/>
+                            <TextBox x:Name="idC" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="104" Margin="188,10,0,0" IsReadOnly="True" IsEnabled="False" Grid.ColumnSpan="2"/>
+
+                            <TextBox x:Name="paternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Paterno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="10,199,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="edadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Edad" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="112" Margin="166,229,0,0" IsEnabled="False" Grid.Column="1"/>
+                            <TextBox x:Name="ciudadC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad de Nacimiento" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Margin="10,229,0,0" IsEnabled="False"/>
+                            <TextBox x:Name="nombreC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="425" Margin="10,168,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
+                            <TextBox x:Name="maternoC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Apellido Materno" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" Margin="225,199,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
+                            <ComboBox x:Name="generoCB"
+                                  SelectedIndex="0" Margin="166,199,10,137" IsEnabled="False" Grid.Column="1">
+                                <ComboBoxItem Content="Masculino" />
+                                <ComboBoxItem Content="Femenino" />
+                            </ComboBox>
+                            <Label Content="Fecha de Nacimiento"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" Margin="0,254,154,82" Width="126" Height="26" />
+
+                            <ComboBox x:Name="añoCB" Margin="225,285,244,51" SelectedIndex="0" IsEnabled="False" Grid.ColumnSpan="2"></ComboBox>
+                            <ComboBox SelectionChanged="cambioMes" x:Name="mesCB" Margin="96,285,70,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
+                            <ComboBox x:Name="diaCB" Margin="10,285,199,51" SelectedIndex="0" IsEnabled="False"></ComboBox>
+
+                            <Label Content="Grupo Sanguineo"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" Margin="0,254,123,82" Width="104" Height="26" Grid.Column="1" />
+                            <ComboBox x:Name="sangreCB" Margin="61,285,123,51" SelectedIndex="0" IsEnabled="False" Grid.Column="1"/>
+                            <Image x:Name="fotoCuadro" HorizontalAlignment="Left" Height="153" Margin="10,10,0,0" VerticalAlignment="Top" Width="126"/>
+                            <Button x:Name="fotoB" Content="Seleccionar foto" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,10,0,0" Height="153" Click="fotoB_Click" IsEnabled="False"/>
+                            <Button x:Name="agregarB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="128" Margin="150,10,0,0" Height="26" Click="agregarB_Click" Grid.Column="1" IsEnabled="False"/>
+                            <ComboBox x:Name="estadoCB" Margin="172,230,244,106" SelectedIndex="0" IsEnabled="False" Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Domicilio">
+                        <Grid>
+                            <TextBox x:Name="calleC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Calle" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,10,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="numC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Numero" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,10,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <TextBox x:Name="colC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Colonia" Height="19" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,41,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <TextBox x:Name="ciudad2C" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Ciudad" Height="28" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,72,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="cpC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="C.P." Height="26" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="121" Margin="333,41,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <ComboBox x:Name="estado2CB" Margin="333,72,10,256" SelectedIndex="0" IsEnabled="False">
+                                <ComboBoxItem Content="Aguascalientes"/>
+                            </ComboBox>
+                            <Label Content="Numeros Telefonicos"
+                               VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,130,406,205" Width="162" Height="27" />
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="telCasaC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono de casa" Height="16" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,162,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="telCelC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,193,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                            <Label Content="Referencias"
+                               VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,224,406,108" Width="162" Height="30" />
+                            <TextBox x:Name="refCasaC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Nombre" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,254,0,0" IsEnabled="False"/>
+                            <TextBox PreviewTextInput="numerosOnly" x:Name="refCelC" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Teléfono Celular" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Margin="10,291,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Expediente">
+                        <TabControl>
+                            <TabItem Header="Antecedentes Patologicos">
+                                <Grid>
+                                    <Label Content="Alergias"
+                                     VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,10,397,271" Width="163" Height="26" IsEnabled="False" />
+                                    <TextBox x:Name="agregAler" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Alergia" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" Margin="10,67,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                    <ListBox x:Name="listaAler" Margin="10,98,397,10" IsEnabled="False">
+                                    </ListBox>
+
+                                    <Label Content="Enfermedades"
+                                            VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,10,204,271" Width="163" Height="26" IsEnabled="False" />
+                                    <ListBox x:Name="listaEnfer" Margin="203,98,204,10" IsEnabled="False">
+                                        <ListBoxItem Content="Ninguna"/>
+                                    </ListBox>
+                                    <Label Content="Operaciones"
+                                            VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,10,10,271" Width="163" Height="26" RenderTransformOrigin="2.006,0.577" IsEnabled="False" />
+                                    <Button x:Name="alergiasB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="10,36,0,0" Height="26" Click="alergiasB_Click"/>
+                                    <ListBox x:Name="listaOper" Margin="397,98,10,10" IsEnabled="False">
+                                        <ListBoxItem Content="Ninguna"/>
+                                    </ListBox>
+                                    <Button x:Name="enfermedadesB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="203,36,0,0" Height="26" IsEnabled="False" Click="enfermedadesB_Click"/>
+                                    <Button x:Name="operacionesB" Content="Agregar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="397,36,0,0" Height="26" IsEnabled="False" Click="operacionesB_Click"/>
+                                    <TextBox x:Name="agregarEnfermedad" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Enfermedad" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" Margin="203,67,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                    <TextBox x:Name="agregarOperacion" HorizontalAlignment="Left" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Operacion" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" Margin="397,67,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Buscar Paciente" MouseUp="buscarWait">
+                <Grid>
+                    <Controls:ProgressRing x:Name="progresoBusqueda" IsActive="True" Margin="200,102,200,117" Visibility="Visible" Height="198" Width="186" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Controls:MetroContentControl>
+</Controls:MetroWindow>
