@@ -10,7 +10,7 @@ namespace SGRM2
     class Conexion
     {
         //Datos del servidor
-        static string datosConexion = "SERVER=localhost; DATABASE=SGRM; UID=development; PASSWORD=x7uj2jsp;";
+        static string datosConexion = "SERVER=localhost; DATABASE=SGRM; UID=development; PASSWORD=none;";
         
         public bool iniciarSesion(string usuario, string password)
         {
