@@ -13,7 +13,7 @@ namespace SGRM
          * CONEXION A LA BASE DE DATOS
          */
         static string conexion = "SERVER=localhost; DATABASE=SGRM;"
-            + "UID=development; PASSWORD=x7uj2jsp;"; //Datos del servidor
+            + "UID=development; PASSWORD=none;"; //Datos del servidor
 
         MySqlConnection conexionn = new MySqlConnection(conexion); //Objeto de conexion
 
